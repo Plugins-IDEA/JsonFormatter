@@ -1,0 +1,45 @@
+<idea-plugin>
+    <id>io.github.whimthen.prettyJson</id>
+    <name>Preety Json</name>
+    <version>1.0</version>
+    <vendor email="whimthen@gmail.com" url="https://github.com/whimthen">WHIM THEN</vendor>
+
+    <description><![CDATA[
+      A WebSocket Client Tools for IntelliJ Platform
+    ]]></description>
+
+    <change-notes><![CDATA[
+      Now No Changes...............................
+    ]]>
+    </change-notes>
+
+    <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <idea-version since-build="201.3803.71"/>
+
+    <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow id="PrettyJson"
+                    doNotActivateOnStart="true"
+                    anchor="right"
+                    icon="AllIcons.Actions.GroupByPrefix"
+                    canCloseContents="true"
+                    factoryClass="io.github.whimthen.json.PrettyToolWindow"/>
+
+        <applicationService serviceInterface="io.github.whimthen.service.JsonService"
+                            serviceImplementation="io.github.whimthen.service.JsonServiceImpl"/>
+        <applicationService serviceInterface="io.github.whimthen.service.HistoryService"
+                            serviceImplementation="io.github.whimthen.service.HistoryServiceImpl"/>
+    </extensions>
+
+    <actions>
+        <action id="PrettyJson.AddTabAction"
+                class="io.github.whimthen.actions.AddTabAction"
+                icon="AllIcons.General.Add"
+                text="New Parser Tab"
+                description="Add a new tab to parse json text"/>
+    </actions>
+
+</idea-plugin>
