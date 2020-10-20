@@ -72,15 +72,12 @@ public class JsonWindowPanel extends SimpleToolWindowPanel {
 //        settings.setLineNumbersShown(true);
 //        settings.setDndEnabled(true);
         EditorTextField textField = new EditorTextField(document, this.project, FileTypes.PLAIN_TEXT, false, false);
-        textField.addNotify();
+        textField.setPreferredSize(new Dimension(0, 100));
         textField.setBorder(JBUI.Borders.empty());
+        textField.addSettingsProvider(provider -> {
+            provider.getSettings().setUseSoftWraps(true);
+        });
         textField.setPlaceholder("Please input json text to parse...");
-        Editor editor = textField.getEditor();
-        if (Objects.nonNull(editor)) {
-            EditorSettings settings = editor.getSettings();
-            settings.setLineNumbersShown(true);
-            settings.setDndEnabled(true);
-        }
         inputPanel.add(textField);
 
         GridConstraints gridConstraints = new GridConstraints();
