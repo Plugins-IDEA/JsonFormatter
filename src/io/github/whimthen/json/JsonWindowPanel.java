@@ -10,21 +10,18 @@ import com.intellij.openapi.fileTypes.FileTypes;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.SimpleToolWindowPanel;
 import com.intellij.ui.EditorTextField;
-import com.intellij.ui.JBColor;
-import com.intellij.ui.ScreenUtil;
 import com.intellij.ui.components.JBPanel;
-import com.intellij.ui.components.JBTextArea;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.util.ui.JBUI;
-import com.intellij.util.ui.UI;
 import io.github.whimthen.kits.JsonKit;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
 
-import static com.intellij.uiDesigner.core.GridConstraints.*;
+import static com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH;
+import static com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED;
 
 public class JsonWindowPanel extends SimpleToolWindowPanel {
 
