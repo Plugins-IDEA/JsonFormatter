@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class JsonKit {
 
-    public static final String TOOL_WINDOW_ID = "PrettyJson";
+    public static final String TOOL_WINDOW_ID = "JsonFormatter";
     public static final String TAB_NAME = "Formatter(%d)";
 
     public static ToolWindow getToolWindow(@NotNull Project project) {

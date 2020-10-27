@@ -18,10 +18,13 @@
 
     <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
+    <!--  Messaging, UI Themes, UI Components, Files, Documents, Actions, Components, Services, Extensions, Editors  -->
     <depends>com.intellij.modules.platform</depends>
+    <!--  File Type, Lexer, Parser, Highlighting, References, Code Completion, Find, Rename, Formatter, Code Navigation  -->
+    <depends>com.intellij.modules.lang</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow id="PrettyJson"
+        <toolWindow id="JsonFormatter"
                     doNotActivateOnStart="true"
                     anchor="right"
                     icon="AllIcons.FileTypes.Json"
