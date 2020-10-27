@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class AddTabAction extends AnAction {
 
-    public static final String ID = "PrettyJson.AddTabAction";
+    public static final String ID = "JsonFormatter.AddTabAction";
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent event) {

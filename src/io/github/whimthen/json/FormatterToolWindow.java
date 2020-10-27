@@ -7,11 +7,12 @@ import com.intellij.ui.content.Content;
 import io.github.whimthen.service.JsonService;
 import org.jetbrains.annotations.NotNull;
 
-public class PrettyToolWindow implements ToolWindowFactory {
+public class FormatterToolWindow implements ToolWindowFactory {
 
     public volatile static Content selectedContent;
 
-    public static @NotNull JsonWindowPanel getPanel() {
+    public static @NotNull
+    JsonWindowPanel getPanel() {
         return (JsonWindowPanel) selectedContent.getComponent();
     }
 

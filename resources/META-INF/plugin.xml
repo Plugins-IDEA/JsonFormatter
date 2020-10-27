@@ -1,6 +1,6 @@
 <idea-plugin>
     <id>io.github.whimthen.prettyJson</id>
-    <name>Preety Json</name>
+    <name>Json Formatter</name>
     <version>1.0</version>
     <vendor email="whimthen@gmail.com" url="https://github.com/whimthen">WHIM THEN</vendor>
 
@@ -24,9 +24,9 @@
         <toolWindow id="PrettyJson"
                     doNotActivateOnStart="true"
                     anchor="right"
-                    icon="AllIcons.Actions.GroupByPrefix"
+                    icon="AllIcons.FileTypes.Json"
                     canCloseContents="true"
-                    factoryClass="io.github.whimthen.json.PrettyToolWindow"/>
+                    factoryClass="io.github.whimthen.json.FormatterToolWindow"/>
 
         <applicationService serviceInterface="io.github.whimthen.service.JsonService"
                             serviceImplementation="io.github.whimthen.service.JsonServiceImpl"/>
@@ -35,7 +35,7 @@
     </extensions>
 
     <actions>
-        <action id="PrettyJson.AddTabAction"
+        <action id="JsonFormatter.AddTabAction"
                 class="io.github.whimthen.actions.AddTabAction"
                 icon="AllIcons.General.Add"
                 text="New Parser Tab"

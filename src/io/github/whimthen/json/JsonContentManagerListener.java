@@ -1,7 +1,6 @@
 package io.github.whimthen.json;
 
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManagerEvent;
@@ -24,7 +23,7 @@ public class JsonContentManagerListener implements ContentManagerListener {
 
     @Override
     public void contentAdded(@NotNull ContentManagerEvent event) {
-        PrettyToolWindow.selectedContent.setCloseable(true);
+        FormatterToolWindow.selectedContent.setCloseable(true);
         this.toolWindow.getContentManager().setSelectedContent(event.getContent());
     }
 
@@ -52,7 +51,7 @@ public class JsonContentManagerListener implements ContentManagerListener {
             if (i <= currentIndex) {
                 continue;
             }
-            String tabName = String.format("Parser(%d)", i);
+            String tabName = String.format(JsonKit.TAB_NAME, i);
             contents[i].setDisplayName(tabName);
             contents[i].setTabName(tabName);
         }
@@ -60,6 +59,6 @@ public class JsonContentManagerListener implements ContentManagerListener {
 
     @Override
     public void selectionChanged(@NotNull ContentManagerEvent event) {
-        PrettyToolWindow.selectedContent = event.getContent();
+        FormatterToolWindow.selectedContent = event.getContent();
     }
 }
