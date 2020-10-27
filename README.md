@@ -1,2 +1,2 @@
-# PrettyJson---IntelliJ-Plugin
-Json parser
+# JsonFormatter---IntelliJ-Plugin
+Json formatter
