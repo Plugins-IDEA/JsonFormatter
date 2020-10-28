@@ -12,7 +12,7 @@ import static com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED;
 
 public class UIKit {
 
-    public static final int DEFAULT_JSPLIT_DIVIDER_LOCATION = 300;
+    public static final float DEFAULT_SPLITTER_DIVIDER_LOCATION = .3F;
     public static final String DEFAULT_DOCUMENT_CONTENT = "{\n" +
             "  \"data\": [\n" +
             "    {\n" +
