@@ -1,6 +1,6 @@
 package io.github.whimthen.json;
 
-import com.intellij.json.JsonFileType;
+import com.intellij.json.json5.Json5Language;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.ActionPlaces;
 import com.intellij.openapi.actionSystem.ActionToolbar;
@@ -20,14 +20,11 @@ import com.intellij.openapi.ui.Splitter;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.AnimatedIcon;
 import com.intellij.ui.components.JBPanel;
-import com.intellij.ui.components.panels.FlowLayoutWrapper;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.util.ui.JBUI;
-import com.intellij.util.ui.components.BorderLayoutPanel;
 import io.github.whimthen.kits.JsonKit;
 import io.github.whimthen.kits.UIKit;
-import javafx.scene.layout.HBox;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.BoxLayout;
@@ -36,10 +33,6 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.awt.Rectangle;
 
 import static com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH;
 
@@ -85,7 +78,7 @@ public class JsonWindowPanel extends SimpleToolWindowPanel {
         EditorHighlighterFactory highlighterFactory = EditorHighlighterFactory.getInstance();
         VirtualFile virtualFile = FileDocumentManager.getInstance().getFile(editor.getDocument());
 
-        SyntaxHighlighter syntaxHighlighter = SyntaxHighlighterFactory.getSyntaxHighlighter(JsonFileType.INSTANCE, project, virtualFile);
+        SyntaxHighlighter syntaxHighlighter = SyntaxHighlighterFactory.getSyntaxHighlighter(Json5Language.INSTANCE, project, virtualFile);
         EditorHighlighter editorHighlighter = highlighterFactory.createEditorHighlighter(syntaxHighlighter, editor.getColorsScheme());
 
         editor.setHighlighter(editorHighlighter);
