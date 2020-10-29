@@ -105,16 +105,16 @@ public class UIKit {
         settings.setUseSoftWraps(true);
         // 编辑器右侧的竖线是否显示
         settings.setRightMarginShown(false);
-        settings.setWhitespacesShown(true);
-        settings.setLeadingWhitespaceShown(true);
-        settings.setInnerWhitespaceShown(true);
-        settings.setTrailingWhitespaceShown(true);
+//        settings.setWhitespacesShown(true);
+//        settings.setLeadingWhitespaceShown(true);
+//        settings.setInnerWhitespaceShown(true);
+//        settings.setTrailingWhitespaceShown(true);
         settings.setWrapWhenTypingReachesRightMargin(true);
         settings.setLineNumbersShown(true);
         settings.setLineMarkerAreaShown(true);
         settings.setGutterIconsShown(true);
         settings.setFoldingOutlineShown(true);
-        settings.setCaretInsideTabs(true);
+//        settings.setCaretInsideTabs(true);
         settings.setCaretRowShown(false);
         settings.setAnimatedScrolling(true);
         settings.setAdditionalPageAtBottom(false);
@@ -154,7 +154,7 @@ public class UIKit {
         // 避免滚动
         settings.setRefrainFromScrolling(false);
         // 显示缩进指南
-        settings.setIndentGuidesShown(true);
+//        settings.setIndentGuidesShown(true);
         // 自定义缩进
 //        settings.setUseCustomSoftWrapIndent(false);
 //        settings.setCustomSoftWrapIndent(0);
@@ -163,7 +163,7 @@ public class UIKit {
         // 预选重命名
 //        settings.setPreselectRename(false);
         // 显示意图灯泡
-        settings.setShowIntentionBulb(true);
+        settings.setShowIntentionBulb(false);
     }
 
 }

@@ -1,6 +1,7 @@
 package io.github.whimthen.json;
 
 import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
+import com.intellij.json.JsonFileType;
 import com.intellij.json.json5.Json5FileType;
 import com.intellij.json.json5.Json5Language;
 import com.intellij.json.json5.highlighting.Json5SyntaxHighlightingFactory;
@@ -10,17 +11,20 @@ import com.intellij.openapi.actionSystem.ActionToolbar;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.EditorFactory;
+import com.intellij.openapi.editor.EditorKind;
 import com.intellij.openapi.editor.EditorSettings;
 import com.intellij.openapi.editor.ex.EditorEx;
 import com.intellij.openapi.editor.highlighter.EditorHighlighter;
 import com.intellij.openapi.editor.highlighter.EditorHighlighterFactory;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
+import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.SimpleToolWindowPanel;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
+import com.intellij.testFramework.LightVirtualFile;
 import com.intellij.ui.components.JBPanel;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.util.ui.JBUI;
@@ -38,7 +42,7 @@ public class ResultToolWindowPanel extends SimpleToolWindowPanel {
 
     private final JPanel layoutPanel;
     private final DefaultActionGroup actionGroup;
-    private final Document document;
+    private Document document;
     private final Project project;
 
     public static ResultToolWindowPanel getInstance(@NotNull Project project) {
@@ -50,41 +54,41 @@ public class ResultToolWindowPanel extends SimpleToolWindowPanel {
         this.project = project;
         this.layoutPanel = new JBPanel<>(UIKit.createGridConstraints(2, 1));
         this.actionGroup = new DefaultActionGroup();
-        this.document = EditorFactory.getInstance().createDocument(UIKit.DEFAULT_DOCUMENT_CONTENT);
+//        this.document = EditorFactory.getInstance().createDocument(UIKit.DEFAULT_DOCUMENT_CONTENT);
         this.initToolbar();
         this.initContent();
         this.setContent(this.layoutPanel);
     }
 
     private void initContent() {
-        EditorEx editor = (EditorEx) EditorFactory.getInstance().createViewer(this.document);
+        EditorFactory editorFactory = EditorFactory.getInstance();
+//        DocumentEx document = (DocumentEx) factory.createDocument(UIKit.DEFAULT_DOCUMENT_CONTENT.replaceAll("(\n|\\s)", ""));
 
-        Project project = this.project;
-        if (Objects.nonNull(editor.getProject())) {
-            project = editor.getProject();
-        }
-
-        PsiFile psiFile = PsiDocumentManager.getInstance(project).getPsiFile(editor.getDocument());
-        if (psiFile != null) {
-            DaemonCodeAnalyzer.getInstance(project).setHighlightingEnabled(psiFile, false);
-        }
-
+        LightVirtualFile virtualFile = new LightVirtualFile("", Json5FileType.INSTANCE, UIKit.DEFAULT_DOCUMENT_CONTENT.replaceAll("(\n|\\s)", ""));
         EditorHighlighterFactory highlighterFactory = EditorHighlighterFactory.getInstance();
-        VirtualFile virtualFile = FileDocumentManager.getInstance().getFile(editor.getDocument());
+//        VirtualFile virtualFile = FileDocumentManager.getInstance().getFile(document);
+        this.document = FileDocumentManager.getInstance().getDocument(virtualFile);
+        EditorEx editor = (EditorEx) editorFactory.createViewer(document, this.project, EditorKind.MAIN_EDITOR);
 
-        SyntaxHighlighter syntaxHighlighter = Json5SyntaxHighlightingFactory.getSyntaxHighlighter(Json5FileType.INSTANCE, project, virtualFile);
+//        new TrafficLightRenderer(this.project, document);
+
+        SyntaxHighlighter syntaxHighlighter = SyntaxHighlighterFactory.getSyntaxHighlighter(Json5Language.INSTANCE, null, virtualFile);
         EditorHighlighter editorHighlighter = highlighterFactory.createEditorHighlighter(syntaxHighlighter, editor.getColorsScheme());
+
+//        Formatter.getInstance().createFormattingModelForPsiFile(virtualFile, null, editor);
+//        FormatterImpl.getInstance().formatAroundRange();
 
         editor.setHighlighter(editorHighlighter);
         editor.setBorder(JBUI.Borders.empty());
         editor.setCaretEnabled(true);
-        editor.setFile(virtualFile);
+        editor.setPlaceholder("Enter the Json string to format...");
+        editor.setShowPlaceholderWhenFocused(true);
+//        editor.setInsertMode(true);
 
         EditorSettings settings = editor.getSettings();
         settings.setLanguageSupplier(() -> Json5Language.INSTANCE);
         UIKit.settingEditor(settings);
         settings.setUseSoftWraps(false);
-
 
         GridConstraints constraints = new GridConstraints();
         constraints.setRow(1);
