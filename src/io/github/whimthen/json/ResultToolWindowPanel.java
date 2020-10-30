@@ -1,10 +1,11 @@
 package io.github.whimthen.json;
 
-import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
-import com.intellij.json.JsonFileType;
+import com.intellij.codeInsight.folding.impl.CollapseExpandDocCommentsHandler;
+import com.intellij.json.editor.folding.JsonFoldingBuilder;
 import com.intellij.json.json5.Json5FileType;
 import com.intellij.json.json5.Json5Language;
-import com.intellij.json.json5.highlighting.Json5SyntaxHighlightingFactory;
+import com.intellij.lang.folding.FoldingBuilder;
+import com.intellij.lang.folding.FoldingBuilderEx;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.ActionPlaces;
 import com.intellij.openapi.actionSystem.ActionToolbar;
@@ -14,6 +15,7 @@ import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.editor.EditorKind;
 import com.intellij.openapi.editor.EditorSettings;
 import com.intellij.openapi.editor.ex.EditorEx;
+import com.intellij.openapi.editor.ex.FoldingModelEx;
 import com.intellij.openapi.editor.highlighter.EditorHighlighter;
 import com.intellij.openapi.editor.highlighter.EditorHighlighterFactory;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
@@ -21,7 +23,6 @@ import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.SimpleToolWindowPanel;
-import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.testFramework.LightVirtualFile;
@@ -34,7 +35,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import java.util.Objects;
+import java.awt.Dimension;
 
 import static com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH;
 
@@ -54,7 +55,6 @@ public class ResultToolWindowPanel extends SimpleToolWindowPanel {
         this.project = project;
         this.layoutPanel = new JBPanel<>(UIKit.createGridConstraints(2, 1));
         this.actionGroup = new DefaultActionGroup();
-//        this.document = EditorFactory.getInstance().createDocument(UIKit.DEFAULT_DOCUMENT_CONTENT);
         this.initToolbar();
         this.initContent();
         this.setContent(this.layoutPanel);
@@ -62,15 +62,11 @@ public class ResultToolWindowPanel extends SimpleToolWindowPanel {
 
     private void initContent() {
         EditorFactory editorFactory = EditorFactory.getInstance();
-//        DocumentEx document = (DocumentEx) factory.createDocument(UIKit.DEFAULT_DOCUMENT_CONTENT.replaceAll("(\n|\\s)", ""));
 
         LightVirtualFile virtualFile = new LightVirtualFile("", Json5FileType.INSTANCE, UIKit.DEFAULT_DOCUMENT_CONTENT.replaceAll("(\n|\\s)", ""));
         EditorHighlighterFactory highlighterFactory = EditorHighlighterFactory.getInstance();
-//        VirtualFile virtualFile = FileDocumentManager.getInstance().getFile(document);
         this.document = FileDocumentManager.getInstance().getDocument(virtualFile);
-        EditorEx editor = (EditorEx) editorFactory.createViewer(document, this.project, EditorKind.MAIN_EDITOR);
-
-//        new TrafficLightRenderer(this.project, document);
+        EditorEx editor = (EditorEx) editorFactory.createViewer(this.document, this.project, EditorKind.MAIN_EDITOR);
 
         SyntaxHighlighter syntaxHighlighter = SyntaxHighlighterFactory.getSyntaxHighlighter(Json5Language.INSTANCE, null, virtualFile);
         EditorHighlighter editorHighlighter = highlighterFactory.createEditorHighlighter(syntaxHighlighter, editor.getColorsScheme());
@@ -83,16 +79,29 @@ public class ResultToolWindowPanel extends SimpleToolWindowPanel {
         editor.setCaretEnabled(true);
         editor.setPlaceholder("Enter the Json string to format...");
         editor.setShowPlaceholderWhenFocused(true);
-//        editor.setInsertMode(true);
 
         EditorSettings settings = editor.getSettings();
         settings.setLanguageSupplier(() -> Json5Language.INSTANCE);
         UIKit.settingEditor(settings);
         settings.setUseSoftWraps(false);
+        settings.setTabSize(4);
+
+//        FoldingModelEx foldingModel = editor.getFoldingModel();
+//        foldingModel.runBatchFoldingOperation(() -> {
+//            foldingModel.addFoldRegion(0, document.getTextLength(), "");
+//        });
+//        JsonFoldingBuilder foldingBuilder = new JsonFoldingBuilder();
+//        foldingBuilder.buildFoldRegions(null, document);
+
+
+//        PsiFile file = PsiDocumentManager.getInstance(this.project).getPsiFile(editor.getDocument());
+//        CollapseExpandDocCommentsHandler.setDocCommentMark(null, true);
+//        new CollapseExpandDocCommentsHandler(true).invoke(this.project, editor, file);
 
         GridConstraints constraints = new GridConstraints();
         constraints.setRow(1);
         constraints.setFill(FILL_BOTH);
+        this.layoutPanel.setMinimumSize(new Dimension(0, 50));
         this.layoutPanel.add(editor.getComponent(), constraints);
     }
 

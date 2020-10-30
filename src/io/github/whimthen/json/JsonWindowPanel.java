@@ -3,9 +3,8 @@ package io.github.whimthen.json;
 import com.intellij.codeHighlighting.HighlightDisplayLevel;
 import com.intellij.codeInsight.daemon.impl.TrafficLightRenderer;
 import com.intellij.codeInsight.intention.IntentionManager;
+import com.intellij.codeInspection.ex.InspectionProfileImpl;
 import com.intellij.codeInspection.ex.InspectionProfileWrapper;
-import com.intellij.json.JsonLanguage;
-import com.intellij.json.json5.Json5FileType;
 import com.intellij.json.json5.Json5Language;
 import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.openapi.actionSystem.ActionManager;
@@ -13,20 +12,17 @@ import com.intellij.openapi.actionSystem.ActionPlaces;
 import com.intellij.openapi.actionSystem.ActionToolbar;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.editor.EditorSettings;
 import com.intellij.openapi.editor.SpellCheckingEditorCustomizationProvider;
 import com.intellij.openapi.editor.colors.EditorColorsManager;
 import com.intellij.openapi.editor.colors.EditorColorsScheme;
 import com.intellij.openapi.editor.ex.EditorEx;
 import com.intellij.openapi.editor.impl.EditorMarkupModelImpl;
-import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.SimpleToolWindowPanel;
 import com.intellij.openapi.ui.Splitter;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
-import com.intellij.testFramework.LightVirtualFile;
 import com.intellij.ui.AdditionalPageAtBottomEditorCustomization;
 import com.intellij.ui.AnimatedIcon;
 import com.intellij.ui.ColorUtil;
@@ -40,7 +36,6 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UIUtil;
-import com.intellij.vcs.commit.message.CommitMessageInspectionProfile;
 import io.github.whimthen.kits.JsonKit;
 import io.github.whimthen.kits.UIKit;
 import org.jetbrains.annotations.NotNull;
@@ -52,13 +47,12 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
 import java.util.HashSet;
 import java.util.Set;
 
 import static com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH;
-import static com.intellij.util.ObjectUtils.notNull;
 import static com.intellij.util.containers.ContainerUtil.addIfNotNull;
-import static com.intellij.vcs.commit.message.CommitMessageInspectionProfile.getBodyLimitSettings;
 
 public class JsonWindowPanel extends SimpleToolWindowPanel {
 
@@ -67,6 +61,7 @@ public class JsonWindowPanel extends SimpleToolWindowPanel {
     private final DefaultActionGroup actionGroup;
     private JPanel resourcePanel;
     private JPanel resultPanel;
+    private JButton formatterBtn;
 
     public JsonWindowPanel(@NotNull Project project) {
         super(false, true);
@@ -109,9 +104,10 @@ public class JsonWindowPanel extends SimpleToolWindowPanel {
 
             if (file != null) {
                 file.putUserData(InspectionProfileWrapper.CUSTOMIZATION_KEY,
-                        profile -> new InspectionProfileWrapper(CommitMessageInspectionProfile.getInstance(myProject)));
+//                        profile -> new InspectionProfileWrapper(CommitMessageInspectionProfile.getInstance(myProject)));
+                        profile -> new InspectionProfileWrapper(new InspectionProfileImpl("JsonFormatter")));
             }
-            editor.putUserData(IntentionManager.SHOW_INTENTION_OPTIONS_KEY, false);
+            editor.putUserData(IntentionManager.SHOW_INTENTION_OPTIONS_KEY, true);
             ((EditorMarkupModelImpl) editor.getMarkupModel())
                     .setErrorStripeRenderer(new ConditionalTrafficLightRenderer(myProject, editor.getDocument()));
         }
@@ -127,11 +123,12 @@ public class JsonWindowPanel extends SimpleToolWindowPanel {
             super.refresh(editorMarkupModel);
             if (editorMarkupModel != null) {
                 editorMarkupModel.setTrafficLightIconVisible(hasHighSeverities(getErrorCount()));
+                editorMarkupModel.setErrorStripeVisible(true);
             }
         }
 
         private boolean hasHighSeverities(@NotNull int[] errorCount) {
-            HighlightSeverity minSeverity = notNull(HighlightDisplayLevel.find("TYPO"), HighlightDisplayLevel.DO_NOT_SHOW).getSeverity();
+            HighlightSeverity minSeverity = HighlightDisplayLevel.ERROR.getSeverity();
 
             for (int i = 0; i < errorCount.length; i++) {
                 if (errorCount[i] > 0 && getSeverityRegistrar().compare(getSeverityRegistrar().getSeverityByIndex(i), minSeverity) > 0) {
@@ -144,87 +141,44 @@ public class JsonWindowPanel extends SimpleToolWindowPanel {
 
     private void initResourcePanel() {
         Set<EditorCustomization> features = new HashSet<>();
-
-//        features.add(new RightMarginCustomization(project));
         features.add(SoftWrapsEditorCustomization.ENABLED);
         features.add(AdditionalPageAtBottomEditorCustomization.DISABLED);
         features.add(editor -> {
             editor.setBackgroundColor(UIUtil.getEditorPaneBackground()); // to use background from set color scheme
+            editor.setBorder(JBUI.Borders.empty());
             boolean isLaFDark = ColorUtil.isDark(UIUtil.getPanelBackground());
             boolean isEditorDark = EditorColorsManager.getInstance().isDarkEditor();
             EditorColorsScheme scheme = isLaFDark == isEditorDark
                     ? EditorColorsManager.getInstance().getGlobalScheme()
                     : EditorColorsManager.getInstance().getSchemeForCurrentUITheme();
             editor.setColorsScheme(scheme);
+            EditorSettings settings = editor.getSettings();
+            settings.setLineNumbersShown(false);
+            settings.setUseSoftWraps(true);
+            settings.setGutterIconsShown(true);
+            settings.setLineMarkerAreaShown(false);
+            settings.setWrapWhenTypingReachesRightMargin(false);
+            settings.setIndentGuidesShown(false);
+            settings.setAllowSingleLogicalLineFolding(false);
+            settings.setLanguageSupplier(() -> Json5Language.INSTANCE);
         });
         features.add(ErrorStripeEditorCustomization.ENABLED);
-        features.add(new InspectionCustomization(project));
+        features.add(new InspectionCustomization(this.project));
         addIfNotNull(features, SpellCheckingEditorCustomizationProvider.getInstance().getEnabledCustomization());
 
-        EditorTextField editorField = EditorTextFieldProvider.getInstance().getEditorField(JsonLanguage.INSTANCE, this.project, features);
-
-        // Global editor color scheme is set by EditorTextField logic. We also need to use font from it and not from the current LaF.
+        EditorTextField editorField = EditorTextFieldProvider.getInstance().getEditorField(Json5Language.INSTANCE, this.project, features);
+        editorField.setText(UIKit.DEFAULT_DOCUMENT_CONTENT.replaceAll("(\n|\\s)", ""));
         editorField.setFontInheritedFromLAF(false);
-//        editorField.getEditor().getSettings().setWrapWhenTypingReachesRightMargin(true);
-
-
-//        EditorFactory editorFactory = EditorFactory.getInstance();
-////        DocumentEx document = (DocumentEx) factory.createDocument(UIKit.DEFAULT_DOCUMENT_CONTENT.replaceAll("(\n|\\s)", ""));
-//
-//        LightVirtualFile virtualFile = new LightVirtualFile("", Json5FileType.INSTANCE, UIKit.DEFAULT_DOCUMENT_CONTENT.replaceAll("(\n|\\s)", ""));
-////        EditorHighlighterFactory highlighterFactory = EditorHighlighterFactory.getInstance();
-////        VirtualFile virtualFile = FileDocumentManager.getInstance().getFile(document);
-//        Document document = FileDocumentManager.getInstance().getDocument(virtualFile);
-//        EditorEx editor = (EditorEx) editorFactory.createEditor(document, this.project, virtualFile, false);
-
-//        new TrafficLightRenderer(this.project, document);
-
-//        SyntaxHighlighter syntaxHighlighter = SyntaxHighlighterFactory.getSyntaxHighlighter(Json5Language.INSTANCE, null, virtualFile);
-//        EditorHighlighter editorHighlighter = highlighterFactory.createEditorHighlighter(syntaxHighlighter, editor.getColorsScheme());
-//
-////        Formatter.getInstance().createFormattingModelForPsiFile(virtualFile, null, editor);
-////        FormatterImpl.getInstance().formatAroundRange();
-//
-//        editor.setHighlighter(editorHighlighter);
-        editorField.setBorder(JBUI.Borders.empty());
-//        editorField.setCaretEnabled(true);
         editorField.setPlaceholder("Enter the Json string to format...");
         editorField.setShowPlaceholderWhenFocused(true);
-//        editor.setInsertMode(true);
-
-//        EditorSettings settings = editorField.getSettings();
-//        UIKit.settingEditor(settings);
-//        settings.setLineNumbersShown(false);
-//        settings.setUseSoftWraps(true);
-//        settings.setGutterIconsShown(true);
-//        settings.setLineMarkerAreaShown(false);
-//        settings.setWrapWhenTypingReachesRightMargin(false);
-//        settings.setIndentGuidesShown(false);
-//        settings.setAllowSingleLogicalLineFolding(false);
-//        settings.setLanguageSupplier(() -> JsonLanguage.INSTANCE);
 
         JPanel warp = new JPanel(new GridLayoutManager(1, 1, JBUI.insets(0, 0, -5, 0), 5, 5));
         warp.setMaximumSize(new Dimension(0, 40));
         warp.setPreferredSize(new Dimension(0, 40));
         JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-//        JPanel btnPanel = new JPanel(new BorderLayout());
-//        btnPanel.setPreferredSize(new Dimension(0, 80));
-//        btnPanel.setMinimumSize(new Dimension(0, 80));
-//        btnPanel.setMaximumSize(new Dimension(0, 80));
-        JButton button = new JButton("Format");
-//        button.setBorder(JBUI.Borders.empty());
-//        btnPanel.add(CommonUI.createButton("Format", e -> {
-//
-//        }));
-        button.addActionListener(e -> {
-            if (button.getIcon() != null) {
-                button.setIcon(null);
-            } else {
-                button.setIcon(new AnimatedIcon.Default());
-            }
-        });
-        btnPanel.add(button);
-//        btnPanel.setMaximumSize(new Dimension(0, 80));
+        this.formatterBtn = new JButton("Format");
+        this.formatterBtn.addActionListener(formatterBtnListener());
+        btnPanel.add(this.formatterBtn);
         warp.add(btnPanel, UIKit.createColumnFillFixedConstraints(0, false));
 
         this.resourcePanel = new JPanel(UIKit.createGridConstraints(2, 1));
@@ -240,6 +194,16 @@ public class JsonWindowPanel extends SimpleToolWindowPanel {
         this.resultPanel = ResultToolWindowPanel.getInstance(this.project);
         this.resultPanel.setLayout(new BoxLayout(this.resultPanel, BoxLayout.Y_AXIS));
         this.resultPanel.setBorder(UIKit.topBorder(1));
+    }
+
+    private ActionListener formatterBtnListener() {
+        return e -> {
+            if (this.formatterBtn.getIcon() != null) {
+                this.formatterBtn.setIcon(null);
+            } else {
+                this.formatterBtn.setIcon(new AnimatedIcon.Default());
+            }
+        };
     }
 
     private void initToolbar() {
