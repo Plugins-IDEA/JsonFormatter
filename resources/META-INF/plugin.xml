@@ -23,6 +23,70 @@
     <!--  File Type, Lexer, Parser, Highlighting, References, Code Completion, Find, Rename, Formatter, Code Navigation  -->
     <depends>com.intellij.modules.lang</depends>
 
+    <actions>
+        <action id="JsonFormatter.AddTabAction"
+                class="io.github.whimthen.actions.AddTabAction"
+                icon="AllIcons.General.Add"
+                text="New Parser Tab"
+                description="Add a new tab to parse json text"/>
+        <!-- Expand -->
+<!--        <action id="JsonFormatter.ExpandRegion" class="io.github.whimthen.actions.ExpandAllRegionAction" icon="AllIcons.Actions.Expandall" text="Expand Region" description="Expand region"/>-->
+<!--        <action id="JsonFormatter.ExpandRegionRecursively" class="io.github.whimthen.actions.ExpandRegionRecursivelyAction" icon="AllIcons.Actions.Expandall" text="Expand Region" description="Expand region"/>-->
+        <action id="JsonFormatter.ExpandAllRegions" class="io.github.whimthen.actions.ExpandAllRegionAction" icon="AllIcons.Actions.Expandall" text="Expand All" description="Expand all"/>
+        <!-- Collapse -->
+<!--        <action id="JsonFormatter.CollapseRegion" class="io.github.whimthen.actions.CollapseRegionAction" icon="AllIcons.Actions.Collapseall" text="Expand Region" description="Expand region"/>-->
+<!--        <action id="JsonFormatter.CollapseRegionRecursively" class="io.github.whimthen.actions.CollapseRegionRecursivelyAction" icon="AllIcons.Actions.Collapseall" text="Expand Region" description="Expand region"/>-->
+        <action id="JsonFormatter.CollapseAllRegions" class="io.github.whimthen.actions.CollapseAllRegionAction" icon="AllIcons.Actions.Collapseall" text="Collapse All" description="Collapse all"/>
+        <!-- ExpandToLevel -->
+        <group id="JsonFormatter.ExpandToLevel" class="io.github.whimthen.actions.ExpandToLevelGroupAction" popup="true" icon="AllIcons.ObjectBrowser.CompactEmptyPackages" text="Expand To Level" description="Expand to level">
+            <action id="JsonFormatter.ExpandToLevel1" class="io.github.whimthen.actions.ExpandToLevel1Action"/>
+            <action id="JsonFormatter.ExpandToLevel2" class="io.github.whimthen.actions.ExpandToLevel2Action"/>
+            <action id="JsonFormatter.ExpandToLevel3" class="io.github.whimthen.actions.ExpandToLevel3Action"/>
+            <action id="JsonFormatter.ExpandToLevel4" class="io.github.whimthen.actions.ExpandToLevel4Action"/>
+            <action id="JsonFormatter.ExpandToLevel5" class="io.github.whimthen.actions.ExpandToLevel5Action"/>
+        </group>
+        <!-- ExpandAllToLevel -->
+        <group id="JsonFormatter.ExpandAllToLevel" class="io.github.whimthen.actions.ExpandAllToLevelAction" popup="true" icon="AllIcons.Actions.ShowAsTree" text="Expand All To Level" description="Expand all to level">
+            <action id="JsonFormatter.ExpandAllToLevel1" class="io.github.whimthen.actions.ExpandAllToLevel1Action"/>
+            <action id="JsonFormatter.ExpandAllToLevel2" class="io.github.whimthen.actions.ExpandAllToLevel2Action"/>
+            <action id="JsonFormatter.ExpandAllToLevel3" class="io.github.whimthen.actions.ExpandAllToLevel3Action"/>
+            <action id="JsonFormatter.ExpandAllToLevel4" class="io.github.whimthen.actions.ExpandAllToLevel4Action"/>
+            <action id="JsonFormatter.ExpandAllToLevel5" class="io.github.whimthen.actions.ExpandAllToLevel5Action"/>
+        </group>
+
+        <!--        <group id="FoldingGroup" popup="true">-->
+        <!--            <action id="ExpandRegion" class="io.github.whimthen.actions.ExpandRegionAction"/>-->
+        <!--            <action id="ExpandRegionRecursively" class="io.github.whimthen.actions.ExpandRegionRecursivelyAction"/>-->
+        <!--            <action id="ExpandAllRegions" class="io.github.whimthen.actions.ExpandAllRegionsAction"/>-->
+        <!--            <separator/>-->
+        <!--            <action id="CollapseRegion" class="io.github.whimthen.actions.CollapseRegionAction"/>-->
+        <!--            <action id="CollapseRegionRecursively" class="io.github.whimthen.actions.CollapseRegionRecursivelyAction"/>-->
+        <!--            <action id="CollapseAllRegions" class="io.github.whimthen.actions.CollapseAllRegionsAction"/>-->
+        <!--            <separator/>-->
+        <!--            <separator/>-->
+        <!--            <group id="LanguageSpecificFoldingGroup">-->
+        <!--                <action id="ExpandDocComments" class="io.github.whimthen.actions.ExpandDocCommentsAction"/>-->
+        <!--                <action id="CollapseDocComments" class="io.github.whimthen.actions.CollapseDocCommentsAction"/>-->
+        <!--            </group>-->
+        <!--            <separator/>-->
+        <!--            <action id="CollapseSelection" class="io.github.whimthen.actions.CollapseSelectionAction"/>-->
+        <!--            <action id="CollapseBlock" class="io.github.whimthen.actions.CollapseBlockAction"/>-->
+        <!--        </group>-->
+
+        <!--        <group id="CommentGroup">-->
+        <!--            <action id="CommentByLineComment" class="com.intellij.codeInsight.generation.actions.CommentByLineCommentAction"/>-->
+        <!--            <action id="CommentByBlockComment" class="com.intellij.codeInsight.generation.actions.CommentByBlockCommentAction"/>-->
+        <!--        </group>-->
+
+        <!--        <group id="CodeFormatGroup">-->
+        <!--            <action id="ReformatCode" class="com.intellij.codeInsight.actions.ReformatCodeAction"/>-->
+        <!--            <action id="ShowReformatFileDialog" class="com.intellij.codeInsight.actions.ShowReformatFileDialog"/>-->
+        <!--            <action id="AutoIndentLines" class="com.intellij.codeInsight.generation.actions.AutoIndentLinesAction"/>-->
+        <!--            <action id="OptimizeImports" class="com.intellij.codeInsight.actions.OptimizeImportsAction"/>-->
+        <!--            <action id="RearrangeCode" class="com.intellij.application.options.codeStyle.arrangement.action.RearrangeCodeAction"/>-->
+        <!--        </group>-->
+    </actions>
+
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow id="JsonFormatter"
                     doNotActivateOnStart="true"
@@ -36,13 +100,5 @@
         <applicationService serviceInterface="io.github.whimthen.service.HistoryService"
                             serviceImplementation="io.github.whimthen.service.HistoryServiceImpl"/>
     </extensions>
-
-    <actions>
-        <action id="JsonFormatter.AddTabAction"
-                class="io.github.whimthen.actions.AddTabAction"
-                icon="AllIcons.General.Add"
-                text="New Parser Tab"
-                description="Add a new tab to parse json text"/>
-    </actions>
 
 </idea-plugin>

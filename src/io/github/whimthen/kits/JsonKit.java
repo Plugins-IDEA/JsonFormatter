@@ -1,12 +1,15 @@
 package io.github.whimthen.kits;
 
-import com.intellij.openapi.actionSystem.ActionManager;
-import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowManager;
-import io.github.whimthen.actions.AddTabAction;
+import com.intellij.ui.content.Content;
+import io.github.whimthen.json.FormatterToolWindow;
+import io.github.whimthen.json.JsonWindowPanel;
+import io.github.whimthen.json.ResultToolWindowPanel;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 public class JsonKit {
 
@@ -17,8 +20,16 @@ public class JsonKit {
         return ToolWindowManager.getInstance(project).getToolWindow(TOOL_WINDOW_ID);
     }
 
-    public static AnAction getConnectAction() {
-        return ActionManager.getInstance().getAction(AddTabAction.ID);
+    public static @NotNull JsonWindowPanel getPanel() {
+        return (JsonWindowPanel) FormatterToolWindow.selectedContent.getComponent();
+    }
+
+    public static ResultToolWindowPanel getResultPanel() {
+        return getPanel().getResultPanel();
+    }
+
+    public static<T> T nullDefault(T obj, T defaultValue) {
+        return Objects.isNull(obj) ? defaultValue : obj;
     }
 
 }

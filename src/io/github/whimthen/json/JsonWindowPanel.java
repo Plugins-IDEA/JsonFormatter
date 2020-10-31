@@ -36,7 +36,7 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UIUtil;
-import io.github.whimthen.kits.JsonKit;
+import io.github.whimthen.kits.JsonAction;
 import io.github.whimthen.kits.UIKit;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -60,7 +60,7 @@ public class JsonWindowPanel extends SimpleToolWindowPanel {
     private final JPanel layoutPanel;
     private final DefaultActionGroup actionGroup;
     private JPanel resourcePanel;
-    private JPanel resultPanel;
+    private ResultToolWindowPanel resultPanel;
     private JButton formatterBtn;
 
     public JsonWindowPanel(@NotNull Project project) {
@@ -155,12 +155,9 @@ public class JsonWindowPanel extends SimpleToolWindowPanel {
             EditorSettings settings = editor.getSettings();
             settings.setLineNumbersShown(false);
             settings.setUseSoftWraps(true);
-            settings.setGutterIconsShown(true);
-            settings.setLineMarkerAreaShown(false);
+            settings.setShowIntentionBulb(false);
             settings.setWrapWhenTypingReachesRightMargin(false);
-            settings.setIndentGuidesShown(false);
             settings.setAllowSingleLogicalLineFolding(false);
-            settings.setLanguageSupplier(() -> Json5Language.INSTANCE);
         });
         features.add(ErrorStripeEditorCustomization.ENABLED);
         features.add(new InspectionCustomization(this.project));
@@ -210,7 +207,7 @@ public class JsonWindowPanel extends SimpleToolWindowPanel {
         JBPanel<SimpleToolWindowPanel> toolbar = new JBPanel<>(new BorderLayout());
         toolbar.setBorder(JBUI.Borders.customLine(JBUI.CurrentTheme.DefaultTabs.borderColor(), 0, 0, 0, 1));
 
-        this.actionGroup.add(JsonKit.getConnectAction());
+        this.actionGroup.add(ActionManager.getInstance().getAction(JsonAction.ID.ADD_TAB));
         this.actionGroup.addSeparator();
 
         ActionToolbar actionToolbar = ActionManager.getInstance().createActionToolbar(ActionPlaces.TOOLWINDOW_TITLE, this.actionGroup, false);
@@ -218,6 +215,14 @@ public class JsonWindowPanel extends SimpleToolWindowPanel {
         toolbar.add(actionToolbar.getComponent());
 
         this.layoutPanel.add(toolbar, UIKit.createColumnFillFixedConstraints(0, true));
+    }
+
+    public ResultToolWindowPanel getResultPanel() {
+        return resultPanel;
+    }
+
+    public @NotNull Project getProject() {
+        return this.project;
     }
 
 }

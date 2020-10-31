@@ -11,11 +11,6 @@ public class FormatterToolWindow implements ToolWindowFactory {
 
     public volatile static Content selectedContent;
 
-    public static @NotNull
-    JsonWindowPanel getPanel() {
-        return (JsonWindowPanel) selectedContent.getComponent();
-    }
-
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
         JsonService instance = JsonService.getInstance();
