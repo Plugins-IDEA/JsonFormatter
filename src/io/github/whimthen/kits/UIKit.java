@@ -13,50 +13,7 @@ import static com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED;
 public class UIKit {
 
     public static final float DEFAULT_SPLITTER_DIVIDER_LOCATION = .3F;
-    public static final String DEFAULT_DOCUMENT_CONTENT = "{\n" +
-            "  \"data\": [\n" +
-            "    {\n" +
-            "      \"cycleEnName\": \"180 day free\",\n" +
-            "      \"cycleId\": 2,\n" +
-            "      \"cycleName\": \"按天计息（最长180天）\",\n" +
-            "      \"id\": 2,\n" +
-            "      \"interestOneDayRateShow\": \"0.547945%\",\n" +
-            "      \"interestRate\": 2.000000,\n" +
-            "      \"interestRateShow\": \"200%\",\n" +
-            "      \"type\": 1\n" +
-            "    },\n" +
-            "    {\n" +
-            "      \"cycleEnName\": \"180 day free\",\n" +
-            "      \"cycleId\": 2,\n" +
-            "      \"cycleName\": \"按天计息（最长180天）\",\n" +
-            "      \"id\": 6,\n" +
-            "      \"interestOneDayRateShow\": \"0.002191%\",\n" +
-            "      \"interestRate\": 0.008000,\n" +
-            "      \"interestRateShow\": \"0.8%\",\n" +
-            "      \"type\": 1\n" +
-            "    },\n" +
-            "    {\n" +
-            "      \"cycleEnName\": \"30 days\",\n" +
-            "      \"cycleId\": 1,\n" +
-            "      \"cycleName\": \"1个月\",\n" +
-            "      \"id\": 7,\n" +
-            "      \"interestOneDayRateShow\": \"0.002191%\",\n" +
-            "      \"interestRate\": 0.008000,\n" +
-            "      \"interestRateShow\": \"0.8%\",\n" +
-            "      \"type\": 1\n" +
-            "    },\n" +
-            "    {\n" +
-            "      \"cycleEnName\": \"30 days\",\n" +
-            "      \"cycleId\": 1,\n" +
-            "      \"cycleName\": \"1个月\",\n" +
-            "      \"id\": 1,\n" +
-            "      \"interestOneDayRateShow\": \"0.013698%\",\n" +
-            "      \"interestRate\": 0.050000,\n" +
-            "      \"interestRateShow\": \"5%\",\n" +
-            "      \"type\": 1\n" +
-            "    }\n" +
-            "  ]\n" +
-            "}";
+    public static final String DEFAULT_DOCUMENT_CONTENT = "[{\"cycleEnName\":\"180dayfree\",\"cycleId\":2,\"cycleName\":\"按天计息（最长180天）\",\"id\":2,\"interestOneDayRateShow\":\"0.547945%\",\"interestRate\":2.000000,\"interestRateShow\":\"200%\",\"type\":1},{\"cycleEnName\":\"180dayfree\",\"cycleId\":2,\"cycleName\":\"按天计息（最长180天）\",\"id\":6,\"interestOneDayRateShow\":\"0.002191%\",\"interestRate\":0.008000,\"interestRateShow\":\"0.8%\",\"type\":1},{\"cycleEnName\":\"30days\",\"cycleId\":1,\"cycleName\":\"1个月\",\"id\":7,\"interestOneDayRateShow\":\"0.002191%\",\"interestRate\":0.008000,\"interestRateShow\":\"0.8%\",\"type\":1},{\"cycleEnName\":\"30days\",\"cycleId\":1,\"cycleName\":\"1个月\",\"id\":1,\"interestOneDayRateShow\":\"0.013698%\",\"interestRate\":0.050000,\"interestRateShow\":\"5%\",\"type\":1}]".replaceAll("(\n|\\s)", "");
 
     public static Border topBorder(int offset) {
         return JBUI.Borders.customLine(JBUI.CurrentTheme.ToolWindow.borderColor(), offset, 0, 0, 0);

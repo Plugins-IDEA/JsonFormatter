@@ -33,6 +33,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.Objects;
 
 import static com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH;
 
@@ -52,7 +53,7 @@ public class ResultToolWindowPanel extends SimpleToolWindowPanel {
         super(false, true);
         this.project = project;
         this.layoutPanel = new JBPanel<>(UIKit.createGridConstraints(2, 1));
-        this.actionGroup = new DefaultActionGroup();
+        this.actionGroup = (DefaultActionGroup) ActionManager.getInstance().getAction(JsonAction.ID.RESULT_PANEL_ACTIONS);
         this.initToolbar();
         this.initContent();
         this.setContent(this.layoutPanel);
@@ -62,12 +63,19 @@ public class ResultToolWindowPanel extends SimpleToolWindowPanel {
         return this.editor;
     }
 
+    public Document getDocument() {
+        return this.document;
+    }
+
     private void initContent() {
         EditorFactory editorFactory = EditorFactory.getInstance();
 
-        LightVirtualFile virtualFile = new LightVirtualFile("", Json5FileType.INSTANCE, UIKit.DEFAULT_DOCUMENT_CONTENT.replaceAll("(\n|\\s)", ""));
+        LightVirtualFile virtualFile = new LightVirtualFile("", Json5FileType.INSTANCE, UIKit.DEFAULT_DOCUMENT_CONTENT);
         EditorHighlighterFactory highlighterFactory = EditorHighlighterFactory.getInstance();
         this.document = FileDocumentManager.getInstance().getDocument(virtualFile);
+        if (Objects.isNull(this.document)) {
+            this.document = editorFactory.createDocument(UIKit.DEFAULT_DOCUMENT_CONTENT);
+        }
         this.editor = (EditorEx) editorFactory.createViewer(this.document, this.project, EditorKind.MAIN_EDITOR);
 
         SyntaxHighlighter syntaxHighlighter = SyntaxHighlighterFactory.getSyntaxHighlighter(Json5Language.INSTANCE, null, virtualFile);
@@ -102,12 +110,6 @@ public class ResultToolWindowPanel extends SimpleToolWindowPanel {
     private void initToolbar() {
         JBPanel<SimpleToolWindowPanel> toolbar = new JBPanel<>(new BorderLayout());
         toolbar.setBorder(UIKit.bottomBorder(1));
-
-        this.actionGroup.add(ActionManager.getInstance().getAction(JsonAction.ID.EXPAND_ALL_REGIONS));
-        this.actionGroup.add(ActionManager.getInstance().getAction(JsonAction.ID.COLLAPSE_ALL_REGIONS));
-        this.actionGroup.add(ActionManager.getInstance().getAction(JsonAction.ID.EXPAND_TO_LEVEL));
-        this.actionGroup.add(ActionManager.getInstance().getAction(JsonAction.ID.EXPAND_ALL_TO_LEVEL));
-        this.actionGroup.addSeparator();
 
         ActionToolbar actionToolbar = ActionManager.getInstance().createActionToolbar(ActionPlaces.TOOLBAR, this.actionGroup, true);
         actionToolbar.setTargetComponent(toolbar);

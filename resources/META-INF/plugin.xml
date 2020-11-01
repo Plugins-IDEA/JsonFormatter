@@ -29,29 +29,40 @@
                 icon="AllIcons.General.Add"
                 text="New Parser Tab"
                 description="Add a new tab to parse json text"/>
-        <!-- Expand -->
-<!--        <action id="JsonFormatter.ExpandRegion" class="io.github.whimthen.actions.ExpandAllRegionAction" icon="AllIcons.Actions.Expandall" text="Expand Region" description="Expand region"/>-->
-<!--        <action id="JsonFormatter.ExpandRegionRecursively" class="io.github.whimthen.actions.ExpandRegionRecursivelyAction" icon="AllIcons.Actions.Expandall" text="Expand Region" description="Expand region"/>-->
-        <action id="JsonFormatter.ExpandAllRegions" class="io.github.whimthen.actions.ExpandAllRegionAction" icon="AllIcons.Actions.Expandall" text="Expand All" description="Expand all"/>
-        <!-- Collapse -->
-<!--        <action id="JsonFormatter.CollapseRegion" class="io.github.whimthen.actions.CollapseRegionAction" icon="AllIcons.Actions.Collapseall" text="Expand Region" description="Expand region"/>-->
-<!--        <action id="JsonFormatter.CollapseRegionRecursively" class="io.github.whimthen.actions.CollapseRegionRecursivelyAction" icon="AllIcons.Actions.Collapseall" text="Expand Region" description="Expand region"/>-->
-        <action id="JsonFormatter.CollapseAllRegions" class="io.github.whimthen.actions.CollapseAllRegionAction" icon="AllIcons.Actions.Collapseall" text="Collapse All" description="Collapse all"/>
-        <!-- ExpandToLevel -->
-        <group id="JsonFormatter.ExpandToLevel" class="io.github.whimthen.actions.ExpandToLevelGroupAction" popup="true" icon="AllIcons.ObjectBrowser.CompactEmptyPackages" text="Expand To Level" description="Expand to level">
-            <action id="JsonFormatter.ExpandToLevel1" class="io.github.whimthen.actions.ExpandToLevel1Action"/>
-            <action id="JsonFormatter.ExpandToLevel2" class="io.github.whimthen.actions.ExpandToLevel2Action"/>
-            <action id="JsonFormatter.ExpandToLevel3" class="io.github.whimthen.actions.ExpandToLevel3Action"/>
-            <action id="JsonFormatter.ExpandToLevel4" class="io.github.whimthen.actions.ExpandToLevel4Action"/>
-            <action id="JsonFormatter.ExpandToLevel5" class="io.github.whimthen.actions.ExpandToLevel5Action"/>
-        </group>
-        <!-- ExpandAllToLevel -->
-        <group id="JsonFormatter.ExpandAllToLevel" class="io.github.whimthen.actions.ExpandAllToLevelAction" popup="true" icon="AllIcons.Actions.ShowAsTree" text="Expand All To Level" description="Expand all to level">
-            <action id="JsonFormatter.ExpandAllToLevel1" class="io.github.whimthen.actions.ExpandAllToLevel1Action"/>
-            <action id="JsonFormatter.ExpandAllToLevel2" class="io.github.whimthen.actions.ExpandAllToLevel2Action"/>
-            <action id="JsonFormatter.ExpandAllToLevel3" class="io.github.whimthen.actions.ExpandAllToLevel3Action"/>
-            <action id="JsonFormatter.ExpandAllToLevel4" class="io.github.whimthen.actions.ExpandAllToLevel4Action"/>
-            <action id="JsonFormatter.ExpandAllToLevel5" class="io.github.whimthen.actions.ExpandAllToLevel5Action"/>
+        <group id="JsonFormatter.ResultPanelActionGroup">
+            <!-- Expand -->
+            <!-- <action id="JsonFormatter.ExpandRegion" class="io.github.whimthen.actions.ExpandAllRegionAction" icon="AllIcons.Actions.Expandall" text="Expand Region" description="Expand region"/>-->
+            <!-- <action id="JsonFormatter.ExpandRegionRecursively" class="io.github.whimthen.actions.ExpandRegionRecursivelyAction" icon="AllIcons.Actions.Expandall" text="Expand Region" description="Expand region"/>-->
+            <action id="JsonFormatter.ExpandAllRegions" class="io.github.whimthen.actions.ExpandAllRegionAction" icon="AllIcons.Actions.Expandall" text="Expand All" description="Expand all"/>
+            <!-- Collapse -->
+            <!-- <action id="JsonFormatter.CollapseRegion" class="io.github.whimthen.actions.CollapseRegionAction" icon="AllIcons.Actions.Collapseall" text="Expand Region" description="Expand region"/>-->
+            <!-- <action id="JsonFormatter.CollapseRegionRecursively" class="io.github.whimthen.actions.CollapseRegionRecursivelyAction" icon="AllIcons.Actions.Collapseall" text="Expand Region" description="Expand region"/>-->
+            <action id="JsonFormatter.CollapseAllRegions" class="io.github.whimthen.actions.CollapseAllRegionAction" icon="AllIcons.Actions.Collapseall" text="Collapse All" description="Collapse all"/>
+            <!-- ExpandToLevel -->
+            <group id="JsonFormatter.ExpandToLevel" popup="true" icon="AllIcons.ObjectBrowser.CompactEmptyPackages" text="Expand To Level" description="Expand to level">
+                <action id="JsonFormatter.ExpandToLevel1" class="io.github.whimthen.actions.ExpandToLevel1Action" text="1" use-shortcut-of="ExpandToLevel1"/>
+                <action id="JsonFormatter.ExpandToLevel2" class="io.github.whimthen.actions.ExpandToLevel2Action" text="2" use-shortcut-of="ExpandToLevel2"/>
+                <action id="JsonFormatter.ExpandToLevel3" class="io.github.whimthen.actions.ExpandToLevel3Action" text="3" use-shortcut-of="ExpandToLevel3"/>
+                <action id="JsonFormatter.ExpandToLevel4" class="io.github.whimthen.actions.ExpandToLevel4Action" text="4" use-shortcut-of="ExpandToLevel4"/>
+                <action id="JsonFormatter.ExpandToLevel5" class="io.github.whimthen.actions.ExpandToLevel5Action" text="5" use-shortcut-of="ExpandToLevel5"/>
+            </group>
+            <!-- ExpandAllToLevel -->
+            <group id="JsonFormatter.ExpandAllToLevel" popup="true" icon="AllIcons.Actions.ShowAsTree" text="Expand All To Level" description="Expand all to level">
+                <action id="JsonFormatter.ExpandAllToLevel1" class="io.github.whimthen.actions.ExpandAllToLevel1Action" text="1" use-shortcut-of="ExpandAllToLevel1"/>
+                <action id="JsonFormatter.ExpandAllToLevel2" class="io.github.whimthen.actions.ExpandAllToLevel2Action" text="2" use-shortcut-of="ExpandAllToLevel2"/>
+                <action id="JsonFormatter.ExpandAllToLevel3" class="io.github.whimthen.actions.ExpandAllToLevel3Action" text="3" use-shortcut-of="ExpandAllToLevel3"/>
+                <action id="JsonFormatter.ExpandAllToLevel4" class="io.github.whimthen.actions.ExpandAllToLevel4Action" text="4" use-shortcut-of="ExpandAllToLevel4"/>
+                <action id="JsonFormatter.ExpandAllToLevel5" class="io.github.whimthen.actions.ExpandAllToLevel5Action" text="5" use-shortcut-of="ExpandAllToLevel5"/>
+            </group>
+
+            <separator/>
+
+            <!-- Settings -->
+            <group id="JsonFormatter.SettingsAction" popup="true" icon="AllIcons.General.GearPlain" text="Settings" keep-content="true">
+                <reference id="JsonFormatter.AddTabAction"/>
+                <reference id="JsonFormatter.ExpandAllToLevel1"/>
+            </group>
+            <separator/>
         </group>
 
         <!--        <group id="FoldingGroup" popup="true">-->

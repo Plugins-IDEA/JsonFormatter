@@ -164,7 +164,7 @@ public class JsonWindowPanel extends SimpleToolWindowPanel {
         addIfNotNull(features, SpellCheckingEditorCustomizationProvider.getInstance().getEnabledCustomization());
 
         EditorTextField editorField = EditorTextFieldProvider.getInstance().getEditorField(Json5Language.INSTANCE, this.project, features);
-        editorField.setText(UIKit.DEFAULT_DOCUMENT_CONTENT.replaceAll("(\n|\\s)", ""));
+        editorField.setText(UIKit.DEFAULT_DOCUMENT_CONTENT);
         editorField.setFontInheritedFromLAF(false);
         editorField.setPlaceholder("Enter the Json string to format...");
         editorField.setShowPlaceholderWhenFocused(true);

@@ -30,7 +30,7 @@ public class JsonServiceImpl implements JsonService {
         ContentFactory factory = ContentFactory.SERVICE.getInstance();
         Content content = factory.createContent(JsonWindowPanel.getInstance(project), String.format(JsonKit.TAB_NAME, tabIndex), false);
         content.putUserData(ToolWindow.SHOW_CONTENT_ICON, Boolean.TRUE);
-        content.setIcon(AllIcons.Toolwindows.ToolWindowModuleDependencies);
+//        content.setIcon(AllIcons.Toolwindows.ToolWindowModuleDependencies);
         tabIndex++;
         return content;
     }
