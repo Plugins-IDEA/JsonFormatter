@@ -32,9 +32,11 @@ import com.intellij.ui.EditorTextFieldProvider;
 import com.intellij.ui.ErrorStripeEditorCustomization;
 import com.intellij.ui.SoftWrapsEditorCustomization;
 import com.intellij.ui.components.JBPanel;
+import com.intellij.ui.components.panels.HorizontalLayout;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.util.ui.JBUI;
+import com.intellij.util.ui.UI;
 import com.intellij.util.ui.UIUtil;
 import io.github.whimthen.kits.JsonAction;
 import io.github.whimthen.kits.UIKit;
@@ -42,9 +44,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.BoxLayout;
+import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.SpringLayout;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
@@ -169,22 +174,23 @@ public class JsonWindowPanel extends SimpleToolWindowPanel {
         editorField.setPlaceholder("Enter the Json string to format...");
         editorField.setShowPlaceholderWhenFocused(true);
 
-        JPanel warp = new JPanel(new GridLayoutManager(1, 1, JBUI.insets(0, 0, -5, 0), 5, 5));
-        warp.setMaximumSize(new Dimension(0, 40));
-        warp.setPreferredSize(new Dimension(0, 40));
-        JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+//        JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
         this.formatterBtn = new JButton("Format");
         this.formatterBtn.addActionListener(formatterBtnListener());
-        btnPanel.add(this.formatterBtn);
-        warp.add(btnPanel, UIKit.createColumnFillFixedConstraints(0, false));
+//        btnPanel.add(this.formatterBtn);
+//
+//        this.resourcePanel = new JPanel(UIKit.createGridConstraints(2, 1));
+//        this.resourcePanel.add(editorField, UIKit.createRowFillFixedConstraints(0));
+//        this.resourcePanel.add(btnPanel, UIKit.createRowFillFixedConstraints(1));
+//        JPanel editorPanelWarp = (JPanel) this.resourcePanel.getComponent(0);
+//        editorPanelWarp.setBorder(UIKit.bottomBorder(1));
+//        this.resourcePanel.setLayout(new BoxLayout(this.resourcePanel, BoxLayout.Y_AXIS));
+//        this.resourcePanel.setBorder(JBUI.Borders.empty());
 
-        this.resourcePanel = new JPanel(UIKit.createGridConstraints(2, 1));
-        this.resourcePanel.add(editorField, UIKit.createRowFillFixedConstraints(0));
-        this.resourcePanel.add(btnPanel, UIKit.createRowFillFixedConstraints(1));
-        JPanel editorPanelWarp = (JPanel) this.resourcePanel.getComponent(0);
-        editorPanelWarp.setBorder(UIKit.bottomBorder(1));
-        this.resourcePanel.setLayout(new BoxLayout(this.resourcePanel, BoxLayout.Y_AXIS));
-        this.resourcePanel.setBorder(JBUI.Borders.empty());
+        this.resourcePanel = UI.PanelFactory.grid().splitColumns()
+                .add(UI.PanelFactory.panel(editorField).resizeX(true).resizeY(true))
+                .add(UI.PanelFactory.panel(this.formatterBtn).resizeX(true).resizeY(false))
+                .createPanel();
     }
 
     private void initResultPanel() {

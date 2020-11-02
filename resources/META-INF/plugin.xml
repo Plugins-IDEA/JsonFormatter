@@ -22,13 +22,14 @@
     <depends>com.intellij.modules.platform</depends>
     <!--  File Type, Lexer, Parser, Highlighting, References, Code Completion, Find, Rename, Formatter, Code Navigation  -->
     <depends>com.intellij.modules.lang</depends>
+    <depends>org.jetbrains.plugins.terminal</depends>
 
     <actions>
         <action id="JsonFormatter.AddTabAction"
                 class="io.github.whimthen.actions.AddTabAction"
                 icon="AllIcons.General.Add"
-                text="New Parser Tab"
-                description="Add a new tab to parse json text"/>
+                text="New Formatter"
+                description="Add a new tab to format json text"/>
         <group id="JsonFormatter.ResultPanelActionGroup">
             <!-- Expand -->
             <!-- <action id="JsonFormatter.ExpandRegion" class="io.github.whimthen.actions.ExpandAllRegionAction" icon="AllIcons.Actions.Expandall" text="Expand Region" description="Expand region"/>-->
@@ -96,6 +97,18 @@
         <!--            <action id="OptimizeImports" class="com.intellij.codeInsight.actions.OptimizeImportsAction"/>-->
         <!--            <action id="RearrangeCode" class="com.intellij.application.options.codeStyle.arrangement.action.RearrangeCodeAction"/>-->
         <!--        </group>-->
+        <action id="JsonFormatter.FormatAction"
+                class="io.github.whimthen.actions.FormatAction"
+                text="Format Selection Text to Json" description="Format selection text to json">
+            <add-to-group group-id="EditSelectGroup" anchor="first"/>
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+            <add-to-group group-id="EditorGutterPopupMenu" anchor="first"/>
+            <add-to-group group-id="EditorActions" anchor="first"/>
+            <!--            <add-to-group group-id="EditorContextBarMenu" anchor="first"/>-->
+            <add-to-group group-id="ConsoleView.PopupMenu" anchor="first"/>
+            <add-to-group group-id="ConsoleEditorPopupMenu" anchor="first"/>
+            <add-to-group group-id="Console.HistoryActions" anchor="first"/>
+        </action>
     </actions>
 
     <extensions defaultExtensionNs="com.intellij">
